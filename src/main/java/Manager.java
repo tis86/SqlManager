@@ -39,22 +39,22 @@ public class Manager {
        /* String rsCount = "SELECT COUNT(*) FROM public." + tableName;
         select(connection, rsCount);
        */
-        select(connection, select);
+        manager.select(select);
 
         //update table sqlcmd
         String insert = "INSERT INTO public.user (name, password, id) VALUES" +
                 "('Lilya', '123qwe', '5') ";
-        update(connection, insert);
+        manager.update(insert);
 
         //update table sqlcmd
         String update = "UPDATE public.user " +
                 "SET password = ? WHERE id > 0";
-        modify(connection, update);
+        manager.modify(update);
 
         //delete table sqlcmd
         String delete = "DELETE FROM public.user " +
                 "WHERE id > 3";
-        update(connection, delete);
+        manager.update(delete);
 
         connection.close();
     }
@@ -79,11 +79,15 @@ public class Manager {
         }
     }
 
-    private static void modify(Connection connection, String update) throws SQLException {
-        PreparedStatement ps = connection.prepareStatement(update);
-        ps.setString(1, "password_" + new Random().nextInt());
-        ps.executeUpdate();
-        ps.close();
+    public void modify(String update) {
+            try {
+                PreparedStatement ps = connection.prepareStatement(update);
+                ps.setString(1, "password_" + new Random().nextInt());
+                ps.executeUpdate();
+                ps.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
     }
 
     public void connect(String database, String user, String password) {
@@ -103,27 +107,35 @@ public class Manager {
         }
     }
 
-    private static void select(Connection connection, String sql1) throws SQLException {
-        Statement stmt;
-        stmt = connection.createStatement();
-        ResultSet rsCount = stmt.executeQuery("SELECT COUNT(*) FROM public.user");
-        rsCount.next();
-        ResultSet rs1 = stmt.executeQuery(sql1);
-        while (rs1.next()) {
-            System.out.println("id: " + rs1.getString("id"));
-            System.out.println("name: " + rs1.getString("name"));
-            System.out.println("password: " + rs1.getString("password"));
-            System.out.println("-----------------------------");
+    public void select(String sql) {
+        try {
+            Statement stmt;
+            stmt = connection.createStatement();
+            ResultSet rsCount = stmt.executeQuery("SELECT COUNT(*) FROM public.user");
+            rsCount.next();
+            ResultSet rs1 = stmt.executeQuery(sql);
+            while (rs1.next()) {
+                System.out.println("id: " + rs1.getString("id"));
+                System.out.println("name: " + rs1.getString("name"));
+                System.out.println("password: " + rs1.getString("password"));
+                System.out.println("-----------------------------");
+            }
+            rs1.close();
+            stmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        rs1.close();
-        stmt.close();
     }
 
-    private static void update(Connection connection, String sql) throws SQLException {
-        Statement stmt;
-        stmt = connection.createStatement();
-        stmt.executeUpdate(sql);
-        stmt.close();
+    public void update(String sql) {
+        try {
+            Statement stmt;
+            stmt = connection.createStatement();
+            stmt.executeUpdate(sql);
+            stmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     private Connection getConnection() {
