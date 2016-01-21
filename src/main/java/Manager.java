@@ -1,6 +1,7 @@
 /**
  * Created by Тарас on 12.01.2016.
  */
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -33,13 +34,9 @@ public class Manager {
         String[] tables = manager.getTableNames();
         System.out.println(Arrays.toString(tables));
 
-        //select table sqlcmd
+        //getTableData table sqlcmd
         String tableName = "user";
-        String select = "SELECT * FROM public." + tableName;
-       /* String rsCount = "SELECT COUNT(*) FROM public." + tableName;
-        select(connection, rsCount);
-       */
-        manager.select(select);
+        manager.getTableData(tableName);
 
         //update table sqlcmd
         String insert = "INSERT INTO public.user (name, password, id) VALUES" +
@@ -80,14 +77,14 @@ public class Manager {
     }
 
     public void modify(String update) {
-            try {
-                PreparedStatement ps = connection.prepareStatement(update);
-                ps.setString(1, "password_" + new Random().nextInt());
-                ps.executeUpdate();
-                ps.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+        try {
+            PreparedStatement ps = connection.prepareStatement(update);
+            ps.setString(1, "password_" + new Random().nextInt());
+            ps.executeUpdate();
+            ps.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public void connect(String database, String user, String password) {
@@ -107,24 +104,33 @@ public class Manager {
         }
     }
 
-    public void select(String sql) {
-        try {
-            Statement stmt;
-            stmt = connection.createStatement();
-            ResultSet rsCount = stmt.executeQuery("SELECT COUNT(*) FROM public.user");
-            rsCount.next();
-            ResultSet rs1 = stmt.executeQuery(sql);
-            while (rs1.next()) {
-                System.out.println("id: " + rs1.getString("id"));
-                System.out.println("name: " + rs1.getString("name"));
-                System.out.println("password: " + rs1.getString("password"));
-                System.out.println("-----------------------------");
+    public DataView[] getTableData(String tableName) throws SQLException {
+        int size = getSize(tableName);
+
+        Statement stmt = connection.createStatement();
+        ResultSet rs1 = stmt.executeQuery("SELECT * FROM public." + tableName);
+        ResultSetMetaData rsmd = rs1.getMetaData();
+        DataView[] result = new DataView[size];
+        int index = 0;
+        while (rs1.next()) {
+            DataView dataView = new DataView();
+            result[index++] = dataView;
+            for (int i = 1; i < rsmd.getColumnCount(); i++) {
+                dataView.put(rsmd.getColumnName(i), rs1.getObject(i));
             }
-            rs1.close();
-            stmt.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
+        rs1.close();
+        stmt.close();
+        return result;
+    }
+
+    private int getSize(String tableName) throws SQLException {
+        Statement stmt = connection.createStatement();
+        ResultSet rsCount = stmt.executeQuery("SELECT COUNT(*) FROM public." + tableName);
+        rsCount.next();
+        int size = rsCount.getInt(1);
+        rsCount.close();
+        return size;
     }
 
     public void update(String sql) {
