@@ -71,4 +71,6 @@ public class ManagerTest {
         assertEquals("[name, password, id]", Arrays.toString(user.getNames()));
         assertEquals("[Taras, pass2, 1]", Arrays.toString(user.getValues()));
     }
+
+
 }

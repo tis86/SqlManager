@@ -2,54 +2,11 @@
  * Created by Тарас on 12.01.2016.
  */
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.sql.*;
 import java.util.Arrays;
 
 public class Manager {
     private Connection connection;
-
-    public static void main(String[] args) throws ClassNotFoundException, SQLException, IOException {
-        //connect
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        System.out.println("Welcome to SqlCMD!");
-        System.out.println("database name: ");
-        String database = reader.readLine();
-        System.out.println("username: ");
-        String user = reader.readLine();
-        System.out.println("password: ");
-        String password = reader.readLine();
-        System.out.println("we can continue!");
-
-        Manager manager = new Manager();
-
-        manager.connect(database, user, password);
-
-        Connection connection = manager.getConnection();
-
-        //delete table sqlcmd
-        manager.clear("user");
-
-        //insert
-        DataView data = new DataView();
-        data.put("name", "Taras");
-        data.put("password", "pass");
-        data.put("id", 1);
-        manager.create(data);
-
-        //table list
-        String[] tables = manager.getTableNames();
-        System.out.println(Arrays.toString(tables));
-
-        //getTableData for table user
-        String tableName = "user";
-        DataView[] result = manager.getTableData(tableName);
-        System.out.println(Arrays.toString(result));
-
-        connection.close();
-    }
 
     public String[] getTableNames() throws SQLException {
         Statement stmt = connection.createStatement();
@@ -145,10 +102,6 @@ public class Manager {
         }
         string = string.substring(0, string.length() - 1);
         return string;
-    }
-
-    private Connection getConnection() {
-        return connection;
     }
 
     public void clear(String tableName) {
