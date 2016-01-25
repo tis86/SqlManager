@@ -11,11 +11,11 @@ import static org.junit.Assert.assertEquals;
  */
 public class ManagerTest {
 
-    private Manager manager = new Manager();
+    private dbManager manager = new JDBCManager();
 
     @Before
     public void setup() {
-        manager = new Manager();
+        manager = new JDBCManager();
         manager.connect("sqlcmd", "postgres", "trmbiq17");
 
     }

@@ -5,7 +5,7 @@
 import java.sql.*;
 import java.util.Arrays;
 
-public class Manager {
+public class JDBCManager implements dbManager {
     private Connection connection;
 
     public String[] getTableNames() throws SQLException {
