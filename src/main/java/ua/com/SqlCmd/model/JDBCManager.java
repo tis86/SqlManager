@@ -1,4 +1,4 @@
-/**
+package ua.com.SqlCmd.model; /**
  * Created by Тарас on 12.01.2016.
  */
 
@@ -23,20 +23,20 @@ public class JDBCManager implements dbManager {
         return tables;
     }
 
-    public void connect(String database, String user, String password) {
+    public void connect(String database, String userName, String password) {
         try {
             Class.forName("org.postgresql.Driver");
         } catch (ClassNotFoundException e) {
-            System.out.println("Please add jdbc jar to project.");
-            e.printStackTrace();
+            throw new RuntimeException("Please add jdbc jar to project.", e);
         }
         try {
             connection = DriverManager.getConnection(
-                    "jdbc:postgresql://localhost/" + database, user, password);
+                    "jdbc:postgresql://localhost/" + database, userName, password);
         } catch (SQLException e) {
-            System.out.println(String.format("Cant get Connection for database: %s user: %s", database, user));
-            e.printStackTrace();
             connection = null;
+            throw new RuntimeException(String.format("Cant get Connection for database: %s user: %s",
+                    database, userName),
+                    e);
         }
     }
 

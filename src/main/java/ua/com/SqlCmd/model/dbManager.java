@@ -1,3 +1,5 @@
+package ua.com.SqlCmd.model;
+
 import java.sql.SQLException;
 
 /**
@@ -6,7 +8,7 @@ import java.sql.SQLException;
 public interface dbManager {
     String[] getTableNames() throws SQLException;
 
-    void connect(String database, String user, String password);
+    void connect(String database, String userName, String password);
 
     DataView[] getTableData(String tableName);
 

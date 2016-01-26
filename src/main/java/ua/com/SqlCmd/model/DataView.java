@@ -1,4 +1,5 @@
-import com.sun.corba.se.spi.ior.ObjectKey;
+package ua.com.SqlCmd.model;
+
 import java.util.Arrays;
 
 /**
@@ -48,8 +49,8 @@ public class DataView {
     }
 
     @Override
-    public java.lang.String toString() {
-        return "DataView{\n" +
+    public String toString() {
+        return "ua.com.SqlCmd.database.DataView{\n" +
                 "names:" + Arrays.toString(getNames()) + "\n" +
                 "values:" + Arrays.toString(getValues()) + "\n" +
                 "}";
