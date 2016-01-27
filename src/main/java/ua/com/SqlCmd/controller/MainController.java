@@ -11,7 +11,7 @@ public class MainController {
     private View view;
     private dbManager manager;
 
-    public MainController (View view, dbManager manager) {
+    public MainController(View view, dbManager manager) {
         this.view = view;
         this.manager = manager;
     }
@@ -24,25 +24,34 @@ public class MainController {
         view.write("Привет, введи название базы данных, имя пользователя" +
                 "и пароль в формате: database|userName|password");
         while (true) {
-            String string = view.read();
-            String[] data = string.split("\\|");
-            String databaseName = data[0];
-            String userName = data[1];
-            String password = data[2];
-
             try {
+                String string = view.read();
+                String[] data = string.split("\\|");
+                if (data.length != 3) {
+                    throw new IllegalArgumentException("Неверн количество параметров разделенных знаков" +
+                            " '|', ожидается 3, но реальное количество:  " + data.length);
+                }
+                String databaseName = data[0];
+                String userName = data[1];
+                String password = data[2];
+
                 manager.connect(databaseName, userName, password);
                 break;
             } catch (Exception e) {
-                String message = e.getMessage();
-                if (e.getCause() != null) {
-                    message += " " + e.getCause().getMessage();
-                }
-                view.write("Неудачное подключение. Причина: " + message);
-                view.write("Попробуйте еще раз");
+                printError(e);
             }
+
         }
 
         view.write("Подключение к базе данных успешно!");
+    }
+
+    private void printError(Exception e) {
+        String message = e.getMessage();
+        if (e.getCause() != null) {
+            message += " " + e.getCause().getMessage();
+        }
+        view.write("Неудачное подключение. Причина: " + message);
+        view.write("Попробуйте еще раз");
     }
 }
