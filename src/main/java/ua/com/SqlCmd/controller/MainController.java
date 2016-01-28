@@ -1,5 +1,6 @@
 package ua.com.SqlCmd.controller;
 
+import ua.com.SqlCmd.model.DataView;
 import ua.com.SqlCmd.model.dbManager;
 import ua.com.SqlCmd.view.View;
 
@@ -22,7 +23,11 @@ public class MainController {
     public void run() {
         connectToDb();
 
-        while(true) {
+        doCommand();
+    }
+
+    private void doCommand() {
+        while (true) {
             view.write("Введи команду: ");
             String command = view.read();
 
@@ -31,22 +36,70 @@ public class MainController {
             } else if (command.equals("help")) {
                 doHelp();
             } else if (command.equals("exit")) {
-                break;
+                view.write("Bye!");
+                System.exit(0);
+            } else if (command.startsWith("find|")) {
+                doFind(command);
             } else {
                 view.write("'" + command + "' is not recognized as an internal or external command");
             }
         }
     }
 
-    private void doHelp() {
-        view.write("Command list: ");
-        view.write("\tlist - ");
-        view.write("\t\t table list database");
-        view.write("\thelp - ");
-        view.write("\t\t write about all commands in sqlManager");
+    private void doFind(String command) {
+        String[] data = command.split("\\|");
+        String tableName = data[1];
+
+        String[] tableColumnns = manager.getTableColumns(tableName);
+        printHeader(tableColumnns);
+
+        DataView[] tableData = manager.getTableData(tableName);
+        printTable(tableData);
     }
 
-    private void doList()  {
+    private void printTable(DataView[] tableData) {
+
+        for (DataView row : tableData) {
+            printRow(row);
+        }
+    }
+
+    private void printRow(DataView row) {
+        Object[] values = row.getValues();
+        String result = "|";
+        for (Object value : values) {
+            result += value + " | ";
+        }
+        view.write(result);
+    }
+
+    private void printHeader(String[] tableColumns) {
+        String result = "|";
+        for (String name : tableColumns) {
+            result += name + " | ";
+        }
+        view.write("--------------------");
+        view.write(result);
+        view.write("--------------------");
+    }
+
+    private void doHelp() {
+        view.write("Command list: ");
+
+        view.write("\tlist - ");
+        view.write("\t\t table list database");
+
+        view.write("\thelp - ");
+        view.write("\t\t write about all commands in sqlManager");
+
+        view.write("\texit - ");
+        view.write("\t\t exit from sqlManager");
+
+        view.write("\tfind|tableName - ");
+        view.write("\t\t get all data from 'table tableName'");
+    }
+
+    private void doList() {
         String[] tableNames = manager.getTableNames();
 
         String message = Arrays.toString(tableNames);

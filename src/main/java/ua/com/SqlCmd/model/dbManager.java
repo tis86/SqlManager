@@ -17,4 +17,6 @@ public interface dbManager {
     void clear(String tableName);
 
     void create(DataView input);
+
+    String[] getTableColumns(String tableName);
 }

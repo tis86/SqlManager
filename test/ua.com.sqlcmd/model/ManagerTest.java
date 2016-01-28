@@ -21,7 +21,7 @@ public class ManagerTest {
     @Before
     public void setup() {
         manager = new JDBCManager();
-        manager.connect("sqlcmd", "postgres", "******");
+        manager.connect("sqlcmd", "postgres", "trmbiq17");
 
     }
 
@@ -75,6 +75,19 @@ public class ManagerTest {
         DataView user = users[0];
         assertEquals("[name, password, id]", Arrays.toString(user.getNames()));
         assertEquals("[Taras, pass2, 1]", Arrays.toString(user.getValues()));
+    }
+
+    @Test
+    public void testGetColumnNames() {
+        //given
+        manager.clear("user");
+
+        //when
+        String[] columnNames = manager.getTableColumns("user");
+
+        //then
+        assertEquals("[name, password, id]", Arrays.toString(columnNames));
+
     }
 
 
