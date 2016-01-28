@@ -21,7 +21,7 @@ public class ManagerTest {
     @Before
     public void setup() {
         manager = new JDBCManager();
-        manager.connect("sqlcmd", "postgres", "trmbiq17");
+        manager.connect("sqlcmd", "postgres", "******");
 
     }
 

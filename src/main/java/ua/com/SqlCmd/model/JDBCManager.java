@@ -8,19 +8,24 @@ import java.util.Arrays;
 public class JDBCManager implements dbManager {
     private Connection connection;
 
-    public String[] getTableNames() throws SQLException {
-        Statement stmt = connection.createStatement();
-        ResultSet rs = stmt.executeQuery("SELECT TABLE_NAME FROM information_schema.tables WHERE" +
-                " table_schema = 'public' AND table_type = 'BASE TABLE'");
-        String[] tables = new String[100];
-        int index = 0;
-        while (rs.next()) {
-            tables[index++] = rs.getString("table_name");
+    public String[] getTableNames() {
+        try {
+            Statement stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT TABLE_NAME FROM information_schema.tables WHERE" +
+                    " table_schema = 'public' AND table_type = 'BASE TABLE'");
+            String[] tables = new String[100];
+            int index = 0;
+            while (rs.next()) {
+                tables[index++] = rs.getString("table_name");
+            }
+            tables = Arrays.copyOf(tables, index, String[].class);
+            stmt.close();
+            rs.close();
+            return tables;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
         }
-        tables = Arrays.copyOf(tables, index, String[].class);
-        stmt.close();
-        rs.close();
-        return tables;
     }
 
     public void connect(String database, String userName, String password) {

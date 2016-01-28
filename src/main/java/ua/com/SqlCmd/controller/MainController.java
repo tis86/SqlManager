@@ -3,6 +3,9 @@ package ua.com.SqlCmd.controller;
 import ua.com.SqlCmd.model.dbManager;
 import ua.com.SqlCmd.view.View;
 
+import java.sql.SQLException;
+import java.util.Arrays;
+
 /**
  * Created by Тарас on 26.01.2016.
  */
@@ -18,6 +21,37 @@ public class MainController {
 
     public void run() {
         connectToDb();
+
+        while(true) {
+            view.write("Введи команду: ");
+            String command = view.read();
+
+            if (command.equals("list")) {
+                doList();
+            } else if (command.equals("help")) {
+                doHelp();
+            } else if (command.equals("exit")) {
+                break;
+            } else {
+                view.write("'" + command + "' is not recognized as an internal or external command");
+            }
+        }
+    }
+
+    private void doHelp() {
+        view.write("Command list: ");
+        view.write("\tlist - ");
+        view.write("\t\t table list database");
+        view.write("\thelp - ");
+        view.write("\t\t write about all commands in sqlManager");
+    }
+
+    private void doList()  {
+        String[] tableNames = manager.getTableNames();
+
+        String message = Arrays.toString(tableNames);
+
+        view.write(message);
     }
 
     private void connectToDb() {

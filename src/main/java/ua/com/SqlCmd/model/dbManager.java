@@ -6,7 +6,7 @@ import java.sql.SQLException;
  * Created by Тарас on 25.01.2016.
  */
 public interface dbManager {
-    String[] getTableNames() throws SQLException;
+    String[] getTableNames();
 
     void connect(String database, String userName, String password);
 
