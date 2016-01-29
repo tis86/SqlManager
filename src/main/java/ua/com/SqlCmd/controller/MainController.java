@@ -3,6 +3,7 @@ package ua.com.SqlCmd.controller;
 import ua.com.SqlCmd.controller.command.Command;
 import ua.com.SqlCmd.controller.command.Exit;
 import ua.com.SqlCmd.controller.command.Help;
+import ua.com.SqlCmd.controller.command.List;
 import ua.com.SqlCmd.model.DataView;
 import ua.com.SqlCmd.model.dbManager;
 import ua.com.SqlCmd.view.View;
@@ -22,7 +23,7 @@ public class MainController {
     public MainController(View view, dbManager manager) {
         this.view = view;
         this.manager = manager;
-        this.commands = new Command[] { new Exit(view), new Help(view)};
+        this.commands = new Command[] { new Exit(view), new Help(view), new List(view, manager)};
     }
 
     public void run() {
@@ -36,8 +37,8 @@ public class MainController {
             view.write("Введи команду: ");
             String command = view.read();
 
-            if (command.equals("list")) {
-                doList();
+            if (commands[2].canProcess(command)) {
+                commands[2].process(command);
             } else if (commands[1].canProcess(command)) {
                 commands[1].process(command);
             } else if (commands[0].canProcess(command)) {
