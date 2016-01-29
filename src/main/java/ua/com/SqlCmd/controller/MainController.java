@@ -1,5 +1,7 @@
 package ua.com.SqlCmd.controller;
 
+import ua.com.SqlCmd.controller.command.Command;
+import ua.com.SqlCmd.controller.command.Exit;
 import ua.com.SqlCmd.model.DataView;
 import ua.com.SqlCmd.model.dbManager;
 import ua.com.SqlCmd.view.View;
@@ -12,12 +14,14 @@ import java.util.Arrays;
  */
 public class MainController {
 
+    private Command[] commands;
     private View view;
     private dbManager manager;
 
     public MainController(View view, dbManager manager) {
         this.view = view;
         this.manager = manager;
+        this.commands = new Command[] { new Exit(view) };
     }
 
     public void run() {
@@ -35,9 +39,8 @@ public class MainController {
                 doList();
             } else if (command.equals("help")) {
                 doHelp();
-            } else if (command.equals("exit")) {
-                view.write("Bye!");
-                System.exit(0);
+            } else if (commands[0].canProcess(command)) {
+                commands[0].process(command);
             } else if (command.startsWith("find|")) {
                 doFind(command);
             } else {
