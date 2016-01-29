@@ -1,12 +1,8 @@
 package ua.com.SqlCmd.controller;
 
 import ua.com.SqlCmd.controller.command.*;
-import ua.com.SqlCmd.model.DataView;
 import ua.com.SqlCmd.model.dbManager;
 import ua.com.SqlCmd.view.View;
-
-import java.sql.SQLException;
-import java.util.Arrays;
 
 /**
  * Created by Тарас on 26.01.2016.
@@ -20,8 +16,8 @@ public class MainController {
     public MainController(View view, dbManager manager) {
         this.view = view;
         this.manager = manager;
-        this.commands = new Command[] { new Exit(view), new Help(view),
-                new List(view, manager), new Find(view, manager)};
+        this.commands = new Command[]{new Exit(view), new Help(view),
+                new List(view, manager), new Find(view, manager), new Unsupported(view)};
     }
 
     public void run() {
@@ -33,18 +29,14 @@ public class MainController {
     private void doCommand() {
         while (true) {
             view.write("Введи команду: ");
-            String command = view.read();
+            String input = view.read();
 
-            if (commands[2].canProcess(command)) {
-                commands[2].process(command);
-            } else if (commands[1].canProcess(command)) {
-                commands[1].process(command);
-            } else if (commands[0].canProcess(command)) {
-                commands[0].process(command);
-            } else if (commands[3].canProcess(command)) {
-                commands[3].process(command);
-            } else {
-                view.write("'" + command + "' is not recognized as an internal or external command");
+            for (Command command : commands) {
+                if (command.canProcess(input)) {
+                    command.process(input);
+                    break;
+                }
+
             }
         }
     }
