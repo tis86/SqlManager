@@ -2,6 +2,7 @@ package ua.com.SqlCmd.controller;
 
 import ua.com.SqlCmd.controller.command.Command;
 import ua.com.SqlCmd.controller.command.Exit;
+import ua.com.SqlCmd.controller.command.Help;
 import ua.com.SqlCmd.model.DataView;
 import ua.com.SqlCmd.model.dbManager;
 import ua.com.SqlCmd.view.View;
@@ -21,7 +22,7 @@ public class MainController {
     public MainController(View view, dbManager manager) {
         this.view = view;
         this.manager = manager;
-        this.commands = new Command[] { new Exit(view) };
+        this.commands = new Command[] { new Exit(view), new Help(view)};
     }
 
     public void run() {
@@ -37,8 +38,8 @@ public class MainController {
 
             if (command.equals("list")) {
                 doList();
-            } else if (command.equals("help")) {
-                doHelp();
+            } else if (commands[1].canProcess(command)) {
+                commands[1].process(command);
             } else if (commands[0].canProcess(command)) {
                 commands[0].process(command);
             } else if (command.startsWith("find|")) {
@@ -84,22 +85,6 @@ public class MainController {
         view.write("--------------------");
         view.write(result);
         view.write("--------------------");
-    }
-
-    private void doHelp() {
-        view.write("Command list: ");
-
-        view.write("\tlist - ");
-        view.write("\t\t table list database");
-
-        view.write("\thelp - ");
-        view.write("\t\t write about all commands in sqlManager");
-
-        view.write("\texit - ");
-        view.write("\t\t exit from sqlManager");
-
-        view.write("\tfind|tableName - ");
-        view.write("\t\t get all data from 'table tableName'");
     }
 
     private void doList() {
