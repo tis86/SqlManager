@@ -154,6 +154,10 @@ public class JDBCManager implements dbManager {
         }
     }
 
+    public boolean isConnected() {
+        return connection != null;
+    }
+
     private String getValuesFormated(DataView input, String format) {
         String values = "";
         for (Object value : input.getValues()) {

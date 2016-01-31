@@ -19,4 +19,6 @@ public interface dbManager {
     void create(DataView input);
 
     String[] getTableColumns(String tableName);
+
+    boolean isConnected();
 }
