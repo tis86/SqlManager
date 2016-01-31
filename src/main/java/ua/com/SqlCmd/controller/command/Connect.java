@@ -8,6 +8,8 @@ import ua.com.SqlCmd.view.View;
  */
 public class Connect implements Command {
 
+    private static String COMMAND_SAMPLE = "connect|sqlcmd|postgres|postgres";
+
     private dbManager manager;
     private View view;
 
@@ -23,9 +25,9 @@ public class Connect implements Command {
     public void process(String command) {
         try {
             String[] data = command.split("\\|");
-            if (data.length != 4) { //TODO remove magic number 4
-                throw new IllegalArgumentException("Неверн количество параметров разделенных знаков" +
-                        " '|', ожидается 4, но реальное количество:  " + data.length);
+            if (data.length != count()) {
+                throw new IllegalArgumentException(String.format("Неверн количество параметров разделенных знаков" +
+                        " '|', ожидается %s, но реальное количество:  %s", count(), data.length));
             }
             String databaseName = data[1];
             String userName = data[2];
@@ -36,6 +38,10 @@ public class Connect implements Command {
         } catch (Exception e) {
             printError(e);
         }
+    }
+
+    private int count() {
+        return COMMAND_SAMPLE.split("\\|").length;
     }
 
     private void printError(Exception e) {

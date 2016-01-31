@@ -25,8 +25,6 @@ public class MainController {
     }
 
     public void run() {
-
-
         doCommand();
     }
 
@@ -35,13 +33,14 @@ public class MainController {
                 "и пароль в формате: connect|database|userName|password");
         while (true) {
             String input = view.read();
-
+            if (input == null) {
+                new Exit(view).process(input);
+            }
             for (Command command : commands) {
                 if (command.canProcess(input)) {
                     command.process(input);
                     break;
                 }
-
             }
             view.write("Введи команду: ");
         }

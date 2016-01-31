@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.util.Arrays;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by Тарас on 20.01.2016.
@@ -21,14 +22,14 @@ public class ManagerTest {
     @Before
     public void setup() {
         manager = new JDBCManager();
-        manager.connect("sqlcmd", "postgres", "trmbiq17");
+        manager.connect("sqlcmd", "postgres", "postgres");
 
     }
 
     @Test
     public void testGetAllTableNames() throws SQLException {
         String[] tableNames = manager.getTableNames();
-        assertEquals("[user]", Arrays.toString(tableNames));
+        assertEquals("[user, test]", Arrays.toString(tableNames));
     }
 
     @Test
@@ -88,6 +89,14 @@ public class ManagerTest {
         //then
         assertEquals("[name, password, id]", Arrays.toString(columnNames));
 
+    }
+
+    @Test
+    public void testisConnected() {
+        //given
+        //when
+        //then
+        assertTrue(manager.isConnected());
     }
 
 
