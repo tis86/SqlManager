@@ -21,14 +21,18 @@ public class MainController {
                 new isConnected(manager, view),
                 new List(view, manager),
                 new Find(view, manager),
-                new Unsupported(view) };
+                new Unsupported(view)};
     }
 
     public void run() {
-        doCommand();
+        try {
+            doWork();
+        } catch (ExitException e) {
+            //do nothing
+        }
     }
 
-    private void doCommand() {
+    private void doWork() {
         view.write("Привет, введи название базы данных, имя пользователя" +
                 "и пароль в формате: connect|database|userName|password");
         while (true) {
