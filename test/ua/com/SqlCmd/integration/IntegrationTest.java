@@ -17,21 +17,16 @@ import static org.junit.Assert.assertEquals;
  */
 public class IntegrationTest {
 
-    private static ConfigurableInputStream in;
-    private static ByteArrayOutputStream out;
+    private ConfigurableInputStream in;
+    private ByteArrayOutputStream out;
     private String data;
 
-    @BeforeClass
-    public static void setup() {
+    @Before
+    public void setup() {
         out = new ByteArrayOutputStream();
         in = new ConfigurableInputStream();
         System.setIn(in);
         System.setOut(new PrintStream(out));
-    }
-
-    @Before
-    public void clearIn() throws IOException {
-        in.reset();
     }
 
     @Test
@@ -159,6 +154,75 @@ public class IntegrationTest {
                 "Введи команду: \r\n" +
                 //blabla
                 "'blabla' is not recognized as an internal or external command\r\n" +
+                "Введи команду: \r\n" +
+                "Bye!\r\n", getData());
+    }
+
+    @Test
+    public void testFindAfterConnect() {
+        //given
+        in.add("connect|sqlcmd|postgres|postgres");
+        in.add("find|user");
+        in.add("exit");
+
+        //when
+        Main.main(new String[0]);
+
+        //then
+        assertEquals("Привет, введи название базы данных, имя пользователяи пароль в формате: " +
+                "connect|database|userName|password\r\n" +
+                //connect|sqlcmd|postgres|postgres
+                "Подключение к базе данных успешно!\r\n" +
+                "Введи команду: \r\n" +
+                //find|user
+                "--------------------\r\n" +
+                "|name | password | id | \r\n" +
+                "--------------------\r\n" +
+                "|Taras | pass2 | 1 | \r\n" +
+                "Введи команду: \r\n" +
+                "Bye!\r\n", getData());
+    }
+
+    @Test
+    public void testListAfterConnect() {
+        //given
+        in.add("connect|sqlcmd|postgres|postgres");
+        in.add("list");
+        in.add("exit");
+
+        //when
+        Main.main(new String[0]);
+
+        //then
+        assertEquals("Привет, введи название базы данных, имя пользователяи пароль в формате: " +
+                "connect|database|userName|password\r\n" +
+                //connect|sqlcmd|postgres|postgres
+                "Подключение к базе данных успешно!\r\n" +
+                "Введи команду: \r\n" +
+                //list
+                "[user, test]\r\n" +
+                "Введи команду: \r\n" +
+                "Bye!\r\n", getData());
+    }
+
+    @Test
+    public void testConnectAfterConnect() {
+        //given
+        in.add("connect|sqlcmd|postgres|postgres");
+        in.add("connect|test|postgres|postgres");
+        in.add("exit");
+
+        //when
+        Main.main(new String[0]);
+
+        //then
+        assertEquals("Привет, введи название базы данных, имя пользователяи пароль в формате: " +
+                "connect|database|userName|password\r\n" +
+                //connect|sqlcmd|postgres|postgres
+                "Подключение к базе данных успешно!\r\n" +
+                "Введи команду: \r\n" +
+                //connect|test|postgres|postgres
+                "Подключение к базе данных успешно!\r\n" +
                 "Введи команду: \r\n" +
                 "Bye!\r\n", getData());
     }
