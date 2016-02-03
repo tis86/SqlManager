@@ -1,6 +1,4 @@
-package ua.com.SqlCmd.model;
-
-import java.sql.SQLException;
+package SqlCmd.model;
 
 /**
  * Created by Тарас on 25.01.2016.

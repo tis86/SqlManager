@@ -1,4 +1,4 @@
-package ua.com.SqlCmd.model;
+package SqlCmd.model;
 
 import java.util.Arrays;
 
@@ -50,7 +50,7 @@ public class DataView {
 
     @Override
     public String toString() {
-        return "ua.com.SqlCmd.database.DataView{\n" +
+        return "SqlCmd.database.DataView{\n" +
                 "names:" + Arrays.toString(getNames()) + "\n" +
                 "values:" + Arrays.toString(getValues()) + "\n" +
                 "}";

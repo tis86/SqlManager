@@ -1,10 +1,12 @@
-package integration;
+package ua.com.SqlCmd.integration;
 
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import ua.com.SqlCmd.controller.Main;
+import SqlCmd.controller.Main;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 
@@ -23,9 +25,13 @@ public class IntegrationTest {
     public static void setup() {
         out = new ByteArrayOutputStream();
         in = new ConfigurableInputStream();
-
         System.setIn(in);
         System.setOut(new PrintStream(out));
+    }
+
+    @Before
+    public void clearIn() throws IOException {
+        in.reset();
     }
 
     @Test
@@ -57,7 +63,9 @@ public class IntegrationTest {
 
     public String getData() {
         try {
-            return new String(out.toByteArray(), "UTF-8");
+            String result = new String(out.toByteArray(), "UTF-8");
+            out.reset();
+            return result;
         } catch (UnsupportedEncodingException e) {
             return e.getMessage();
         }
@@ -108,7 +116,7 @@ public class IntegrationTest {
         assertEquals("Привет, введи название базы данных, имя пользователяи пароль в формате: " +
                 "connect|database|userName|password\r\n" +
                 //find|user
-                "for first time you need to use command connect|databaseName|userName|password, not 'c'\r\n" +
+                "for first time you need to use command connect|databaseName|userName|password, not 'find|user'\r\n" +
                 "Введи команду: \r\n" +
                 //exit
                 "Bye!\r\n", getData());

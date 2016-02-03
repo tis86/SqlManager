@@ -1,10 +1,10 @@
-package model;
+package ua.com.SqlCmd.model;
 
 import org.junit.Before;
 import org.junit.Test;
-import ua.com.SqlCmd.model.DataView;
-import ua.com.SqlCmd.model.JDBCManager;
-import ua.com.SqlCmd.model.dbManager;
+import SqlCmd.model.DataView;
+import SqlCmd.model.JDBCManager;
+import SqlCmd.model.dbManager;
 
 import java.sql.SQLException;
 import java.util.Arrays;

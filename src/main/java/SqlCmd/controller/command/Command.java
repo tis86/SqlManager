@@ -1,4 +1,4 @@
-package ua.com.SqlCmd.controller.command;
+package SqlCmd.controller.command;
 
 /**
  * Created by Тарас on 29.01.2016.

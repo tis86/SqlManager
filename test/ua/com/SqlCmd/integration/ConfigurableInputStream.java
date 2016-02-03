@@ -1,4 +1,4 @@
-package integration;
+package ua.com.SqlCmd.integration;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -38,5 +38,11 @@ public class ConfigurableInputStream extends InputStream{
         } else {
             this.line += "\n" + line;
         }
+    }
+
+    @Override
+    public synchronized void reset() throws IOException {
+        line = null;
+        endLine = false;
     }
 }

@@ -1,4 +1,4 @@
-package integration;
+package ua.com.SqlCmd.integration;
 
 import java.io.IOException;
 import java.io.OutputStream;

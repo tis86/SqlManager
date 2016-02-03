@@ -1,6 +1,6 @@
-package ua.com.SqlCmd.controller.command;
+package SqlCmd.controller.command;
 
-import ua.com.SqlCmd.view.View;
+import SqlCmd.view.View;
 
 /**
  * Created by Тарас on 29.01.2016.

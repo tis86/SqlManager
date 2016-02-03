@@ -1,4 +1,4 @@
-package ua.com.SqlCmd.view;
+package SqlCmd.view;
 
 import java.util.NoSuchElementException;
 import java.util.Scanner;

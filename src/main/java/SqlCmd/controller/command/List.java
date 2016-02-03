@@ -1,8 +1,7 @@
-package ua.com.SqlCmd.controller.command;
+package SqlCmd.controller.command;
 
-import ua.com.SqlCmd.model.JDBCManager;
-import ua.com.SqlCmd.model.dbManager;
-import ua.com.SqlCmd.view.View;
+import SqlCmd.model.dbManager;
+import SqlCmd.view.View;
 
 import java.util.Arrays;
 

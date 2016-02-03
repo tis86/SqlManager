@@ -1,4 +1,4 @@
-package ua.com.SqlCmd.model; /**
+package SqlCmd.model; /**
  * Created by Тарас on 12.01.2016.
  */
 

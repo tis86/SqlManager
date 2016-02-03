@@ -1,8 +1,8 @@
-package ua.com.SqlCmd.controller;
+package SqlCmd.controller;
 
-import ua.com.SqlCmd.controller.command.*;
-import ua.com.SqlCmd.model.dbManager;
-import ua.com.SqlCmd.view.View;
+import SqlCmd.controller.command.*;
+import SqlCmd.model.dbManager;
+import SqlCmd.view.View;
 
 /**
  * Created by Тарас on 26.01.2016.

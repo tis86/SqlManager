@@ -1,4 +1,4 @@
-package ua.com.SqlCmd.view;
+package SqlCmd.view;
 
 /**
  * Created by Тарас on 26.01.2016.
