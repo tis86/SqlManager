@@ -20,6 +20,7 @@ public class MainController {
                 new Exit(view),
                 new isConnected(manager, view),
                 new Create(manager, view),
+                new Clear(manager, view),
                 new List(view, manager),
                 new Find(view, manager),
                 new Unsupported(view)};
@@ -38,16 +39,35 @@ public class MainController {
                 "и пароль в формате: connect|database|userName|password");
         while (true) {
             String input = view.read();
-            if (input == null) {
-                new Exit(view).process(input);
-            }
+
             for (Command command : commands) {
-                if (command.canProcess(input)) {
-                    command.process(input);
+                try {
+                    if (command.canProcess(input)) {
+                        command.process(input);
+                        break;
+                    }
+                } catch (Exception e) {
+                    if (e instanceof ExitException) {
+                        try {
+                            throw e;
+                        } catch (Exception e1) {
+                            e1.printStackTrace();
+                        }
+                    }
+                    printError(e);
                     break;
                 }
             }
             view.write("Введи команду: ");
         }
+    }
+
+    private void printError(Exception e) {
+        String message = e.getMessage();
+        if (e.getCause() != null) {
+            message += " " + e.getCause().getMessage();
+        }
+        view.write("Неудачное подключение. Причина: " + message);
+        view.write("Попробуйте еще раз");
     }
 }

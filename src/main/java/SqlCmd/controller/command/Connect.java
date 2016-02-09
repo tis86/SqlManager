@@ -23,33 +23,23 @@ public class Connect implements Command {
     }
 
     public void process(String command) {
-        try {
-            String[] data = command.split("\\|");
-            if (data.length != count()) {
-                throw new IllegalArgumentException(String.format("Неверн количество параметров разделенных знаков" +
-                        " '|', ожидается %s, но реальное количество:  %s", count(), data.length));
-            }
-            String databaseName = data[1];
-            String userName = data[2];
-            String password = data[3];
-
-            manager.connect(databaseName, userName, password);
-            view.write("Подключение к базе данных успешно!");
-        } catch (Exception e) {
-            printError(e);
+        String[] data = command.split("\\|");
+        if (data.length != count()) {
+            throw new IllegalArgumentException(String.format("Неверн количество параметров разделенных знаков" +
+                    " '|', ожидается %s, но реальное количество:  %s", count(), data.length));
         }
+
+        String databaseName = data[1];
+        String userName = data[2];
+        String password = data[3];
+
+        manager.connect(databaseName, userName, password);
+        view.write("Подключение к базе данных успешно!");
     }
 
     private int count() {
         return COMMAND_SAMPLE.split("\\|").length;
     }
 
-    private void printError(Exception e) {
-        String message = e.getMessage();
-        if (e.getCause() != null) {
-            message += " " + e.getCause().getMessage();
-        }
-        view.write("Неудачное подключение. Причина: " + message);
-        view.write("Попробуйте еще раз");
-    }
+
 }
