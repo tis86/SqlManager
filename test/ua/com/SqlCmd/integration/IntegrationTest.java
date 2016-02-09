@@ -1,12 +1,10 @@
 package ua.com.SqlCmd.integration;
 
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import SqlCmd.controller.Main;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 
@@ -178,7 +176,6 @@ public class IntegrationTest {
                 "--------------------\r\n" +
                 "|name | password | id | \r\n" +
                 "--------------------\r\n" +
-                "|Taras | pass2 | 1 | \r\n" +
                 "Введи команду: \r\n" +
                 "Bye!\r\n", getData());
     }

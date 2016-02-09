@@ -119,7 +119,8 @@ public class JDBCManager implements dbManager {
         }
     }
 
-    public void create(DataView input) {
+    @Override
+    public void create(String tableName, DataView input) {
         try {
             Statement stmt = connection.createStatement();
 

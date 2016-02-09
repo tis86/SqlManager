@@ -42,7 +42,7 @@ public class ManagerTest {
         input.put("name", "Taras");
         input.put("password", "pass");
         input.put("id", 1);
-        manager.create(input);
+        manager.create("user", input);
 
         //then
         DataView[] users = manager.getTableData("user");
@@ -62,7 +62,7 @@ public class ManagerTest {
         input.put("name", "Taras");
         input.put("password", "pass");
         input.put("id", 1);
-        manager.create(input);
+        manager.create("user", input);
 
         //when
         DataView newValue = new DataView();
