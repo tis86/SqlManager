@@ -19,14 +19,14 @@ public class MainController {
                 new Help(view),
                 new Exit(view),
                 new isConnected(manager, view),
-                new Create(manager, view),
-                new Clear(manager, view),
                 new List(view, manager),
                 new Find(view, manager),
+                new Clear(manager, view),
+                new Create(manager, view),
                 new Unsupported(view)};
     }
 
-    public void run() {
+    public void run() throws Exception {
         try {
             doWork();
         } catch (ExitException e) {
@@ -34,7 +34,7 @@ public class MainController {
         }
     }
 
-    private void doWork() {
+    private void doWork() throws Exception {
         view.write("Привет, введи название базы данных, имя пользователя" +
                 "и пароль в формате: connect|database|userName|password");
         while (true) {
@@ -48,11 +48,7 @@ public class MainController {
                     }
                 } catch (Exception e) {
                     if (e instanceof ExitException) {
-                        try {
-                            throw e;
-                        } catch (Exception e1) {
-                            e1.printStackTrace();
-                        }
+                        throw e;
                     }
                     printError(e);
                     break;

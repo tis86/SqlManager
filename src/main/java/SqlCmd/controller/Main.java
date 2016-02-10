@@ -9,7 +9,7 @@ import SqlCmd.view.View;
  * Created by Тарас on 26.01.2016.
  */
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         View view = new Console();
         dbManager manager = new JDBCManager();
 

@@ -28,10 +28,10 @@ public class IntegrationTest {
     }
 
     @Test
-    public void testHelp() {
+    public void testHelp() throws Exception {
         //given
         in.add("help");
-        // in.add("exit");
+        in.add("exit");
 
         //when
         Main.main(new String[0]);
@@ -65,7 +65,7 @@ public class IntegrationTest {
     }
 
     @Test
-    public void testExit() {
+    public void testExit() throws Exception {
         //given
         in.add("exit");
 
@@ -73,12 +73,13 @@ public class IntegrationTest {
         Main.main(new String[0]);
 
         //then
-        assertEquals("Привет, введи название базы данных, имя пользователяи пароль в формате: connect|database|userName|password\r\n" +
+        assertEquals("Привет, введи название базы данных, имя пользователяи пароль в формате:" +
+                " connect|database|userName|password\r\n" +
                 "Bye!\r\n", getData());
     }
 
     @Test
-    public void testListWithoutConnect() {
+    public void testListWithoutConnect() throws Exception {
         //given
         in.add("list");
         in.add("exit");
@@ -97,7 +98,7 @@ public class IntegrationTest {
     }
 
     @Test
-    public void testFindWithoutConnect() {
+    public void testFindWithoutConnect() throws Exception {
         //given
         in.add("find|user");
         in.add("exit");
@@ -116,7 +117,7 @@ public class IntegrationTest {
     }
 
     @Test
-    public void testUnsupported() {
+    public void testUnsupported() throws Exception {
         //given
         in.add("blabla");
         in.add("exit");
@@ -135,7 +136,7 @@ public class IntegrationTest {
     }
 
     @Test
-    public void testUnsupportedAfterConnect() {
+    public void testUnsupportedAfterConnect() throws Exception {
         //given
         in.add("connect|sqlcmd|postgres|postgres");
         in.add("blabla");
@@ -157,7 +158,7 @@ public class IntegrationTest {
     }
 
     @Test
-    public void testFindAfterConnect() {
+    public void testFindAfterConnect() throws Exception {
         //given
         in.add("connect|sqlcmd|postgres|postgres");
         in.add("find|user");
@@ -176,12 +177,13 @@ public class IntegrationTest {
                 "--------------------\r\n" +
                 "|name | password | id | \r\n" +
                 "--------------------\r\n" +
+                "|Taras | pass2 | 1 | \r\n" +
                 "Введи команду: \r\n" +
                 "Bye!\r\n", getData());
     }
 
     @Test
-    public void testListAfterConnect() {
+    public void testListAfterConnect() throws Exception {
         //given
         in.add("connect|sqlcmd|postgres|postgres");
         in.add("list");
@@ -203,10 +205,12 @@ public class IntegrationTest {
     }
 
     @Test
-    public void testConnectAfterConnect() {
+    public void testConnectAfterConnect() throws Exception {
         //given
         in.add("connect|sqlcmd|postgres|postgres");
+        in.add("list");
         in.add("connect|test|postgres|postgres");
+        in.add("list");
         in.add("exit");
 
         //when
@@ -218,8 +222,12 @@ public class IntegrationTest {
                 //connect|sqlcmd|postgres|postgres
                 "Подключение к базе данных успешно!\r\n" +
                 "Введи команду: \r\n" +
+                "[user, test]\r\n" +
+                "Введи команду: \r\n" +
                 //connect|test|postgres|postgres
                 "Подключение к базе данных успешно!\r\n" +
+                "Введи команду: \r\n" +
+                "[test2]\r\n" +
                 "Введи команду: \r\n" +
                 "Bye!\r\n", getData());
     }
